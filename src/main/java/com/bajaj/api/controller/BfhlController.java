@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/bfhl")
 @CrossOrigin(origins = "*")
 public class BfhlController {
 
@@ -17,7 +16,7 @@ public class BfhlController {
         this.bfhlService = bfhlService;
     }
 
-    @PostMapping
+    @PostMapping("/bfhl")
     public ResponseEntity<BfhlResponse> processData(@RequestBody(required = false) BfhlRequest request) {
         try {
             BfhlResponse response = bfhlService.processData(request);
@@ -27,5 +26,10 @@ public class BfhlController {
             errorResponse.setIsSuccess(false);
             return ResponseEntity.ok(errorResponse);
         }
+    }
+
+    @GetMapping("/health")
+    public ResponseEntity<java.util.Map<String, String>> healthCheck() {
+        return ResponseEntity.ok(java.util.Map.of("status", "UP"));
     }
 }
